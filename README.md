@@ -2,6 +2,12 @@
 
 Hier soll eine Anwendung enstehen um den aktuellen Status eines GWM ORA Funky Cat per MQTT zu veröffentlichen und über MQTT Befehle an das Auto zu senden.
 
+# Ich will mitmachen...
+
+Sehr gern! Ich hab aktuell auch noch keinen Plan, was die nächsten Schritte sind. Daher ist es am besten wenn du [einen Issue aufmachst](https://github.com/zivillian/ora2mqtt/issues/new). und sagst was du vorhast, kannst, willst, brauchst...
+
+Was ich gemacht habe um zu dem aktuellen Stand zu kommen findest du unter [How to...?](#how-to)
+
 # How it started?
 
 Bei evcc hat [jemand vorgeschlagen](https://github.com/evcc-io/evcc/discussions/9524#discussioncomment-6832420), dass man sich die App mal anschauen müsste...
@@ -69,4 +75,16 @@ Das ist der Private Key - der RSA Parameter d wurde _transformiert_.
 
 ### _Transformation_
 
-Sowohl die mitgelieferten Schlüssel, als auch die Schlüssel des erstellten Client Zertifikat sind _transformiert_. Zusätzlich werden nur die RSA Parameter n, d und e abgespeichert - die weiteren Parameter p,q, dp, dq und qInv müssen berechnet werden. Der Code dafür liegt in [CertificateHandler.cs](libgwmapi/CertificateHandler.cs).
+Sowohl die mitgelieferten Schlüssel, als auch die Schlüssel des erstellten Client Zertifikats sind _transformiert_. Zusätzlich werden nur die RSA Parameter n, d und e abgespeichert - die weiteren Parameter p,q, dp, dq und qInv müssen berechnet werden. Der Code um die Transformation rückgängig zu machen und die fehlenden Paramter zu berechnen liegt in [CertificateHandler.cs](libgwmapi/CertificateHandler.cs).
+
+Alternativ geht das auch in python mit [cryptography.hazmat.primitives.asymmetric.rsa](https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#handling-partial-rsa-private-keys).
+
+# How to...?
+
+Ich habe die App mit [apktool](https://apktool.org/) zerlegt und wieder zusammengebaut. Damit lassen sich die Zertifikate auslesen und ersetzen. Um zu verstehen, was in den Zertifikaten drin steht und was wie _transformiert_ wird, war [asn1js](https://lapo.it/asn1js) sehr hilfreich.
+
+Um die modifizierte App installieren zu können, muss sie signiert sein - das geht relativ einfach mit [uber-apk-signer](https://github.com/patrickfav/uber-apk-signer/).
+
+Den Traffic kann man mit [mitmproxy](https://mitmproxy.org/) mitlesen. Dabei muss das Root Zertifikat auf dem Gerät oder Emulator [installiert werden](https://docs.mitmproxy.org/stable/concepts-certificates/#installing-the-mitmproxy-ca-certificate-manually) und das Client Zertifikat aus der App [extrahiert](#client-cert), [_transformiert_](#transformation) und [mit angegeben](https://docs.mitmproxy.org/stable/concepts-certificates/#using-a-client-side-certificate) werden.
+
+Die App bringt einige native Binaries mit (relevant sind `libbean.so` und `libbeancrypto.so`) - da werden auch die Zertifikate und Private Keys verarbeitet. Mit [Ghidra](https://ghidra-sre.org/) lässt sich das aber sehr gut untersuchen. Für den Crypto Part wird [libtomcrypt](https://github.com/libtom/libtomcrypt/) genutzt - damit lässt sich dann auch die _Transformation_ der RSA Parameter nachvollziehen.
