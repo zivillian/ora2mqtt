@@ -26,8 +26,18 @@ public partial class GwmApiClient
         return PostH5Async<LoginAccountRequest, LoginAccountResponse>("userAuth/loginAccount", request, cancellationToken);
     }
 
-    public Task CheckSecurityPassword(CheckSecurityPassword request, CancellationToken cancellationToken)
+    public Task CheckSecurityPasswordAsync(CheckSecurityPassword request, CancellationToken cancellationToken)
     {
         return PostH5Async("userAuth/checkSecurityPassword", request, cancellationToken);
+    }
+
+    public Task AddAppDeviceInfoAsync(AddAppDevice request, CancellationToken cancellationToken)
+    {
+        return PostH5Async("userAuth/addAppDeviceInfo", request, cancellationToken);
+    }
+
+    public Task<RefreshTokenResponse> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken)
+    {
+        return PostH5Async<RefreshTokenRequest, RefreshTokenResponse>("userAuth/refreshToken", request, cancellationToken);
     }
 }

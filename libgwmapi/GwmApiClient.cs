@@ -43,6 +43,16 @@ public partial class GwmApiClient
         }
     }
 
+    public string Country
+    {
+        get => _h5Client.DefaultRequestHeaders.GetValues("country").FirstOrDefault();
+        set
+        {
+            _h5Client.DefaultRequestHeaders.Remove("country");
+            _h5Client.DefaultRequestHeaders.Add("country", value);
+        }
+    }
+
     public bool HasAccessToken
     {
         get

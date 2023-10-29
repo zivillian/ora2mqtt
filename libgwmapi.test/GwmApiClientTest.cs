@@ -84,6 +84,7 @@ public class GwmApiClientTest
     public async Task CanGetUserBaseInfo()
     {
         var client = GetAuthenticatedClient();
+        client.Country = "DE";
         var info = await client.GetUserBaseInfoAsync(CancellationToken.None);
         Assert.NotNull(info);
         Assert.NotNull(info.LastName);
@@ -93,12 +94,13 @@ public class GwmApiClientTest
     public async Task CanAcquireVehicles()
     {
         var client = GetAuthenticatedClient();
-        var vehicles = await client.AquireVehicles(CancellationToken.None);
+        var vehicles = await client.AquireVehiclesAsync(CancellationToken.None);
         Assert.NotNull(vehicles);
         Assert.NotEmpty(vehicles);
         var vehicle = vehicles[0];
         Assert.NotNull(vehicle);
         Assert.NotNull(vehicle.AgreementVersion);
+        _testOutputHelper.WriteLine(JsonSerializer.Serialize(vehicles));
     }
 
     [Fact]
@@ -128,7 +130,7 @@ public class GwmApiClientTest
     {
         var client = GetAuthenticatedClient();
         var request = new CheckSecurityPassword("<pin>");
-        await client.CheckSecurityPassword(request, CancellationToken.None);
+        await client.CheckSecurityPasswordAsync(request, CancellationToken.None);
     }
 
     [Fact]
@@ -181,6 +183,30 @@ public class GwmApiClientTest
         var first = response[0];
         Assert.NotNull(first);
         Assert.NotNull(first.HwCommandId);
+    }
+
+    [Fact]
+    public async Task CanAddAppDeviceInfo()
+    {
+        var client = GetClient();
+        var request = new AddAppDevice
+        {
+            DeviceId = Guid.NewGuid().ToString("N")
+        };
+        await client.AddAppDeviceInfoAsync(request, CancellationToken.None);
+    }
+
+    [Fact]
+    public async Task CanRefreshToken()
+    {
+        var client = GetClient();
+        var request = new RefreshTokenRequest
+        {
+            AccessToken = "<accessToken>",
+            RefreshToken = "<refreshToken>",
+            DeviceId = "<deviceId>"
+        };
+        await client.RefreshTokenAsync(request, CancellationToken.None);
     }
 
     private GwmApiClient GetClient()
