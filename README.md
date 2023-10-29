@@ -8,6 +8,33 @@ Sehr gern! Ich hab aktuell auch noch keinen Plan, was die nächsten Schritte sin
 
 Was ich gemacht habe um zu dem aktuellen Stand zu kommen findest du unter [How to...?](#how-to)
 
+# Status
+
+Es gibt eine Kommandozeilenanwendung die unter Windows läuft und die aktuellen Werte auslesen und per MQTT veröffentlichen kann.
+
+Die Werte (SOC, Range und Odometer) können in [evcc](https://github.com/evcc-io/evcc/) mit der folgenden Konfiguration eingebunden werden:
+
+```yaml
+vehicles:
+- name: ora
+  type: custom
+  title: Ora Funky Cat
+  capacity: 45
+  phases: 3
+  soc:
+    source: mqtt
+    topic: GWM/<vin>/status/items/2013021/value
+    timeout: 1m
+  range:
+    source: mqtt
+    topic: GWM/<vin>/status/items/2011007/value
+    timeout: 1m
+  odometer:
+    source: mqtt
+    topic: GWM/<vin>/status/items/2103010/value
+    timeout: 1m
+```
+
 # How it started?
 
 Bei evcc hat [jemand vorgeschlagen](https://github.com/evcc-io/evcc/discussions/9524#discussioncomment-6832420), dass man sich die App mal anschauen müsste...
