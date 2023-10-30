@@ -39,6 +39,8 @@ vehicles:
     timeout: 1m
 ```
 
+Ich habe das inzwischen auch ein paar Stunden laufen lassen, während ich mit dem Auto unterwegs war. Die Daten werden auch dann übermittelt, wenn die offizielle App nicht genutzt wird. Auch der Token Refresh war erfolgreich.
+
 # How it started?
 
 Bei evcc hat [jemand vorgeschlagen](https://github.com/evcc-io/evcc/discussions/9524#discussioncomment-6832420), dass man sich die App mal anschauen müsste...
