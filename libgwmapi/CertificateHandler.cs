@@ -118,7 +118,6 @@ namespace libgwmapi
                 } while (r.IsEven);
 
                 // Step 3
-                var rng = new RNGCryptoServiceProvider();
                 bool success = false;
                 BigInteger y = 0;
 
@@ -130,7 +129,7 @@ namespace libgwmapi
                     do
                     {
                         byte[] randomBytes = new byte[nBitCount / 8 + 1]; // +1 to force a positive number
-                        rng.GetBytes(randomBytes);
+                        RandomNumberGenerator.Fill(randomBytes);
                         randomBytes[randomBytes.Length - 1] = 0;
                         g = new BigInteger(randomBytes);
                     } while (g >= n);

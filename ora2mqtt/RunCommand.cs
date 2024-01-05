@@ -20,6 +20,7 @@ public class RunCommand:BaseCommand
         if (!File.Exists(ConfigFile))
         {
             await Console.Error.WriteLineAsync($"config file ({ConfigFile}) missing");
+            return 1;
         }
         Ora2MqttOptions config;
         var deserializer = new Deserializer();
