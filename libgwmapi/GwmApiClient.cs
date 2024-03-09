@@ -50,6 +50,8 @@ public partial class GwmApiClient
         {
             _h5Client.DefaultRequestHeaders.Remove("country");
             _h5Client.DefaultRequestHeaders.Add("country", value);
+            _appClient.DefaultRequestHeaders.Remove("country");
+            _appClient.DefaultRequestHeaders.Add("country", value);
         }
     }
 

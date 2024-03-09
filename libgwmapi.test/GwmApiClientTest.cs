@@ -239,6 +239,7 @@ public class GwmApiClientTest
     {
         var client = GetClient();
         client.SetAccessToken("<accessToken>");
+        client.Country = "<country>";
         return client;
     }
 }
