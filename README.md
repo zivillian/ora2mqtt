@@ -122,11 +122,3 @@ Um die modifizierte App installieren zu können, muss sie signiert sein - das ge
 Den Traffic kann man mit [mitmproxy](https://mitmproxy.org/) mitlesen. Dabei muss das Root Zertifikat auf dem Gerät oder Emulator [installiert werden](https://docs.mitmproxy.org/stable/concepts-certificates/#installing-the-mitmproxy-ca-certificate-manually) und das Client Zertifikat aus der App [extrahiert](#client-cert), [_transformiert_](#transformation) und [mit angegeben](https://docs.mitmproxy.org/stable/concepts-certificates/#using-a-client-side-certificate) werden.
 
 Die App bringt einige native Binaries mit (relevant sind `libbean.so` und `libbeancrypto.so`) - da werden auch die Zertifikate und Private Keys verarbeitet. Mit [Ghidra](https://ghidra-sre.org/) lässt sich das aber sehr gut untersuchen. Für den Crypto Part wird [libtomcrypt](https://github.com/libtom/libtomcrypt/) genutzt - damit lässt sich dann auch die _Transformation_ der RSA Parameter nachvollziehen.
-
-## App Version >= 1.9.4
-
-Seit Version 1.9.4 scheint [KiwiVM](https://github.com/iKiwiSec/KiwiVM) genutzt zu werden - daher kann man mit apktool nicht mehr in den Code schauen. Ich habe versucht die App (ohne sie zu verändern) mit apktool zu zerlegen, wieder zusammenzubauen und mit uber-apk-signer zu signieren, aber anschließend startet sie nicht mehr.
-
-Um mit einer älteren Version und mitmproxy mitzulesen muss die Versionsprüfung verhindert werden. Das geht in mitmproxy mit dem [Interceptor](https://docs.mitmproxy.org/stable/mitmproxytutorial-interceptrequests/) `~q & ~u /app-api/api/v1.0/complaintsComments/findLastVersion`. Der App ist es glücklicherweise egal, ob der Request abgebrochen wird oder in ein Timeout läuft. Wichtig ist nur, dass der Request im mitmproxy nicht mit `a` einfach durchgelassen wird - am besten den request mit `X` killen.
-
-Wenn jemand eine Idee hat, wie man in der aktuellen Version das Root Zertifikat tauschen kann, einfach ein Issue aufmachen.
