@@ -20,4 +20,4 @@ COPY --from=build-env /app/out .
 COPY libgwmapi/Resources/gwm_root.pem /etc/ssl/certs/.
 ENV OPENSSL_CONF=/app/openssl.cnf
 
-ENTRYPOINT ["/app/ora2mqtt"]
+ENTRYPOINT ["/app/ora2mqtt", "-c", "/config/ora2mqtt.yml"]
