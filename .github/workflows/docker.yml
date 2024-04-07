@@ -2,7 +2,7 @@ name: Docker
 
 on:
   push:
-    branches: [ docker ]
+    branches: [ main ]
     tags:
       - '*'
 
@@ -36,5 +36,5 @@ jobs:
       with:
         platforms: linux/amd64,linux/arm64,linux/arm/v7
         push: true
-        tags: zivillian/ora2mqtt:docker
+        tags: zivillian/ora2mqtt:main
         labels: ${{ steps.meta.outputs.labels }}
