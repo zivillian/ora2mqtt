@@ -1,4 +1,3 @@
-# see https://stackoverflow.com/a/72245418/19671
 openssl_conf = openssl_init
 
 [openssl_init]
