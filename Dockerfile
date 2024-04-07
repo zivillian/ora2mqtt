@@ -17,5 +17,7 @@ COPY openssl.cnf ./out/
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine
 WORKDIR /app
 COPY --from=build-env /app/out .
+COPY libgwmapi/Resources/gwm_root.pem /etc/ssl/certs/.
+ENV OPENSSL_CONF=/app/openssl.cnf
 
 ENTRYPOINT ["/app/ora2mqtt"]
