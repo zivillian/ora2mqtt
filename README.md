@@ -14,7 +14,7 @@ Falls du dabei Hilfe brauchst, kannst du auch einfach [einen Issue aufmachst](ht
 
 Es gibt eine Kommandozeilenanwendung die unter Windows läuft und die aktuellen Werte auslesen und per MQTT veröffentlichen kann.
 
-Im ersten Schritt muss die Konfigurationsdatei mit `ora2mqtt configure` erstellt werden. Anschließend kann die Anwendung mit `ora2mqtt run` oder einfach `ora2mqtt` gestartet werden. Damit sollten die aktuellen Werte im MQTT zu sehen sein.
+Im ersten Schritt muss die Konfigurationsdatei mit `ora2mqtt configure` erstellt werden. Dafür am besten einen zusätzlichen Account anlegen und das Auto für diesen Account freigeben. Anschließend kann die Anwendung mit `ora2mqtt run` oder einfach `ora2mqtt` gestartet werden. Damit sollten die aktuellen Werte im MQTT zu sehen sein.
 
 Die Werte (SOC, Range und Odometer) können in [evcc](https://github.com/evcc-io/evcc/) mit der folgenden Konfiguration eingebunden werden:
 
@@ -31,7 +31,7 @@ vehicles:
     timeout: 1m
   range:
     source: mqtt
-    topic: GWM/<vin>/status/items/2011007/value
+    topic: GWM/<vin>/status/items/2011501/value
     timeout: 1m
   odometer:
     source: mqtt
@@ -40,6 +40,59 @@ vehicles:
 ```
 
 Ich habe das inzwischen auch ein paar Stunden laufen lassen, während ich mit dem Auto unterwegs war. Die Daten werden auch dann übermittelt, wenn die offizielle App nicht genutzt wird. Auch der Token Refresh war erfolgreich.
+
+## Docker
+
+Inzwischen gibt es auch einen Docker Container. Die config muss vorher mit `ora2mqtt configure` erstellt werden:
+
+```bash
+docker run -d --restart=unless-stopped -v ./ora2mqtt.yml:/config/ora2mqtt.yml zivillian/ora2mqtt:latest
+```
+
+# Datenpunkte
+
+Folgende Datenpunkte kann ich auslesen:
+
+| Datenpunkt | Beschreibung
+| ---------- | ------------
+| 2011501    | Reichweite in km
+| 2013021    | SOC
+| 2013022    | 
+| 2013023    | 
+| 2041142    | Ladevorgang aktiv
+| 2042071    | 
+| 2042082    | bool Flag, nur aktiv wenn geladen wird (aber nicht immer)
+| 2078020    | 
+| 2101001    | Reifendruck vl in kPa
+| 2101002    | Reifendruck vr in kPa
+| 2101003    | Reifendruck hl in kPa
+| 2101004    | Reifendruck hr in kPa
+| 2101005    | Reifentemperatur vl in °C
+| 2101006    | Reifentemperatur vr in °C
+| 2101007    | Reifentemperatur hl in °C
+| 2101008    | Reifentemperatur hr in °C
+| 2102001    | 
+| 2102002    | 
+| 2102003    | 
+| 2102004    | 
+| 2102007    | 
+| 2102008    | 
+| 2102009    | 
+| 2102010    | 
+| 2103010    | Kilometerstand in km
+| 2201001    | Innenraumtemperatur in zehntel °C
+| 2202001    | Klimaanlage an
+| 2208001    | Schloss offen
+| 2210001    | Fenster geschlossen vl
+| 2210002    | Fenster geschlossen vr
+| 2210003    | Fenster geschlossen hl
+| 2210004    | Fenster geschlossen hr
+| 2210010    | 
+| 2210011    | 
+| 2210012    | 
+| 2210013    | 
+| 2222001    | 
+| 2310001    | 
 
 # How it started?
 
