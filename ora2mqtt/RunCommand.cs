@@ -31,15 +31,16 @@ public class RunCommand:BaseCommand
 
         using var mqtt = await ConnectMqttAsync(config.Mqtt, cancellationToken);
 
-        var api = GetGwmApiClient(config, cancellationToken);
+        var api = GetGwmApiClient(config);
 
         try
         {
+            using var timer = new PeriodicTimer(TimeSpan.FromSeconds(Intervall));
             while (!cancellationToken.IsCancellationRequested)
             {
                 await RefreshTokenAsync(api, config, cancellationToken);
                 await PublishStatusAsync(mqtt, api, cancellationToken);
-                await Task.Delay(Intervall * 1000, cancellationToken);
+                await timer.WaitForNextTickAsync(cancellationToken);
             }
         }
         catch (TaskCanceledException)
@@ -72,7 +73,7 @@ public class RunCommand:BaseCommand
         return client;
     }
 
-    private GwmApiClient GetGwmApiClient(Ora2MqttOptions options, CancellationToken cancellationToken)
+    private GwmApiClient GetGwmApiClient(Ora2MqttOptions options)
     {
         var client = ConfigureApiClient(options);
         client.SetAccessToken(options.Account.AccessToken);
