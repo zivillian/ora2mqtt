@@ -45,7 +45,7 @@ Ich habe das inzwischen auch ein paar Stunden laufen lassen, während ich mit de
 
 Damit die Binaries unter Linux laufen, muss das root Zertifikat installiert werden. Dazu das `gwm_root.pem` Zertifikat aus dem Repository herunterladen und mit `sudo cp gwm_root.pem /etc/ssl/certs/` in den Zertifikate Ordner des Systems kopieren.
 
-Außerdem muss die `openssl.cnf` aus dem Repository heruntergeladen werden. Danach kann man die Binaries aus dem Release mit dem folgen Skript starten.
+Außerdem muss die [`openssl.cnf`](openssl.cnf) aus dem Repository heruntergeladen werden. Danach kann man die Binaries aus dem Release mit dem folgen Skript starten.
 
 ```
 #/bin/bash
