@@ -41,6 +41,28 @@ vehicles:
 
 Ich habe das inzwischen auch ein paar Stunden laufen lassen, während ich mit dem Auto unterwegs war. Die Daten werden auch dann übermittelt, wenn die offizielle App nicht genutzt wird. Auch der Token Refresh war erfolgreich.
 
+## Linux
+
+Damit die Binaries unter Linux laufen, muss das root Zertifikat installiert werden. Dazu das [`gwm_root.pem`](libgwmapi/Resources/gwm_root.pem) Zertifikat aus dem Repository herunterladen und mit `sudo cp gwm_root.pem /etc/ssl/certs/` in den Zertifikate Ordner des Systems kopieren.
+
+Außerdem muss die [`openssl.cnf`](openssl.cnf) aus dem Repository heruntergeladen werden. Danach kann man die Binaries aus dem Release mit dem folgen Skript starten.
+
+```
+#/bin/bash
+
+export OPENSSL_CONF=/path/to/the/file/openssl.cnf
+cd /path/to/the/binary/ora2mqtt/
+
+# restart when failed
+while :
+do
+    ./ora2mqtt -i 60
+    sleep 30
+done
+```
+
+Das Skript startet das Programm in einer Endlosschleife neu, falls die Verbindung verloren wird. Außerdem wird das Polling-Interval von 10s auf 60s erhöht um die Anzahl der Anfragen an den GMW Server zu reduzieren.
+
 ## Docker
 
 Inzwischen gibt es auch einen Docker Container. Die config muss vorher mit `ora2mqtt configure` erstellt werden:
