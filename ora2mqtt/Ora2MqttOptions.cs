@@ -29,4 +29,6 @@ public class Ora2MqttMqttOptions
     public string Username { get; set; }
 
     public string Password { get; set; }
+
+    public bool UseTls { get; set; }
 }

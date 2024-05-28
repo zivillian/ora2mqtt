@@ -55,7 +55,8 @@ public class RunCommand:BaseCommand
         var factory = new MqttFactory();
         var client = factory.CreateMqttClient();
         var builder = new MqttClientOptionsBuilder()
-            .WithTcpServer(options.Host);
+            .WithTcpServer(options.Host)
+            .WithTlsOptions(new MqttClientTlsOptions { UseTls = options.UseTls });
         if (!String.IsNullOrEmpty(options.Username) && !String.IsNullOrEmpty(options.Password))
         {
             builder = builder.WithCredentials(options.Username, options.Password);
