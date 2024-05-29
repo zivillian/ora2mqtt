@@ -57,7 +57,7 @@ namespace ora2mqtt
             {
                 options.Country = Prompt.Select<string>(o => o
                     .WithMessage("Please choose your country")
-                    .WithItems(new[] { "DE", "GB" })
+                    .WithItems(new[] { "DE", "GB", "EE" })
                 );
             }
         }
