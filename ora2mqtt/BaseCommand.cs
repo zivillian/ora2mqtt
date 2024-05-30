@@ -2,14 +2,26 @@
 using libgwmapi;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Http.Logging;
+using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
 
 namespace ora2mqtt;
 
 public abstract class BaseCommand
 {
+    [Option('d', "debug", Default = false, HelpText = "enable debug logging")]
+    public bool Debug { get; set; }
+
     [Option('c', "config", Default = "ora2mqtt.yml", HelpText = "path to yaml config file")]
     public string ConfigFile { get; set; }
+
+    protected ILoggerFactory LoggerFactory { get; private set; }
+
+    protected void Setup()
+    {
+        LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(x => x.SetMinimumLevel(Debug ? LogLevel.Trace : LogLevel.Error).AddConsole());
+    }
 
     protected GwmApiClient ConfigureApiClient(Ora2MqttOptions options)
     {
@@ -39,7 +51,16 @@ public abstract class BaseCommand
             }
         }
 
-        return new GwmApiClient(new HttpClient(), new HttpClient(httpHandler))
+        var httpLogger = LoggerFactory.CreateLogger<HttpClient>();
+        var h5Client = new HttpClient(new LoggingHttpMessageHandler(httpLogger)
+        {
+            InnerHandler = new HttpClientHandler()
+        });
+        var appClient = new HttpClient(new LoggingHttpMessageHandler(httpLogger)
+        {
+            InnerHandler = httpHandler
+        });
+        return new GwmApiClient(h5Client, appClient)
         {
             Country = options.Country
         };
