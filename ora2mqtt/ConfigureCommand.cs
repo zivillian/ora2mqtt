@@ -7,16 +7,20 @@ using MQTTnet;
 using Sharprompt;
 using Sharprompt.Fluent;
 using YamlDotNet.Serialization;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
+using ora2mqtt.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace ora2mqtt
 {
     [Verb("configure", HelpText = "run config file wizard")]
     public class ConfigureCommand:BaseCommand
     {
+        private ILogger<ConfigureCommand> _logger;
+
         public async Task<int> Run(CancellationToken cancellationToken)
         {
+            Setup();
+            _logger = LoggerFactory.CreateLogger<ConfigureCommand>();
             Ora2MqttOptions config;
             if (!File.Exists(ConfigFile))
             {
@@ -76,7 +80,7 @@ namespace ora2mqtt
                 }
                 catch (GwmApiException e)
                 {
-                    await Console.Error.WriteLineAsync($"Access token expired ({e.Message}). Trying to refresh token...");
+                    _logger.LogError($"Access token expired ({e.Message}). Trying to refresh token...");
                 }
                 var refresh = new RefreshTokenRequest
                 {
@@ -94,7 +98,7 @@ namespace ora2mqtt
                 }
                 catch (GwmApiException e)
                 {
-                    await Console.Error.WriteLineAsync($"Token refresh failed: {e.Message}");
+                    _logger.LogError($"Token refresh failed: {e.Message}");
                 }
             }
             var request = new LoginAccountRequest
@@ -160,7 +164,7 @@ namespace ora2mqtt
 
             try
             {
-                var factory = new MqttFactory();
+                var factory = new MqttFactory(new MqttLogger(LoggerFactory));
                 using var client = factory.CreateMqttClient();
                 var builder = new MqttClientOptionsBuilder()
                     .WithTcpServer(options.Host);
@@ -174,7 +178,7 @@ namespace ora2mqtt
             }
             catch (MqttCommunicationException ex)
             {
-                await Console.Error.WriteLineAsync($"Mqtt connection failed: {ex.Message}");
+                _logger.LogError($"Mqtt connection failed: {ex.Message}");
                 return false;
             }
             return true;
