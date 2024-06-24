@@ -7,8 +7,6 @@ using MQTTnet;
 using Sharprompt;
 using Sharprompt.Fluent;
 using YamlDotNet.Serialization;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ora2mqtt
 {
@@ -151,6 +149,8 @@ namespace ora2mqtt
                 options.Username = Prompt.Input<string>("Please enter your mqtt username", defaultValue: options.Username);
                 options.Password = Prompt.Password("Please enter your mqtt password");
             }
+
+            options.UseTls = Prompt.Confirm("Do you want to use TLS on port 8883?");
         }
 
         private async Task<bool> TestMqttAsync(Ora2MqttOptions oraOptions, CancellationToken cancellationToken)
@@ -163,7 +163,8 @@ namespace ora2mqtt
                 var factory = new MqttFactory();
                 using var client = factory.CreateMqttClient();
                 var builder = new MqttClientOptionsBuilder()
-                    .WithTcpServer(options.Host);
+                    .WithTcpServer(options.Host)
+                    .WithTlsOptions(new MqttClientTlsOptions { UseTls = options.UseTls });
                 if (!String.IsNullOrEmpty(options.Username) && !String.IsNullOrEmpty(options.Password))
                 {
                     builder = builder.WithCredentials(options.Username, options.Password);
