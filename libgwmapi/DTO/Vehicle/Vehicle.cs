@@ -182,10 +182,10 @@ namespace libgwmapi.DTO.Vehicle
         public string StyleName { get; set; }
 
         [JsonPropertyName("tServiceEndDate")]
-        public int TServiceEndDate { get; set; }
+        public long TServiceEndDate { get; set; }
 
         [JsonPropertyName("tServiceStartDate")]
-        public int TServiceStartDate { get; set; }
+        public long TServiceStartDate { get; set; }
 
         [JsonPropertyName("tServiceStatus")]
         public string TServiceStatus { get; set; }
@@ -206,7 +206,7 @@ namespace libgwmapi.DTO.Vehicle
         public string VTypeName { get; set; }
 
         [JsonPropertyName("vehicleId")]
-        public int VehicleId { get; set; }
+        public string VehicleId { get; set; }
 
         [JsonPropertyName("vehicleNick")]
         public object VehicleNick { get; set; }
