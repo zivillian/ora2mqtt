@@ -24,6 +24,7 @@ public partial class GwmApiClient
         _h5Client.DefaultRequestHeaders.Add("brand", "3");
         _h5Client.DefaultRequestHeaders.Add("language", "en");
         _h5Client.DefaultRequestHeaders.Add("systemType", "1");
+        _h5Client.DefaultRequestHeaders.Add("cver", "");
         _h5Client.BaseAddress = new Uri("https://eu-h5-gateway.gwmcloud.com/app-api/api/v1.0/");
         
         _appClient = appClient;
