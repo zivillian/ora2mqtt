@@ -117,8 +117,12 @@ public class RunCommand:BaseCommand
             var topicPrefix = $"GWM/{vehicle.Vin}/status";
             await PublishMessageAsync(mqtt, $"{topicPrefix}/AcquisitionTime", status.AcquisitionTime, cancellationToken);
             await PublishMessageAsync(mqtt, $"{topicPrefix}/UpdateTime", status.UpdateTime, cancellationToken);
-            await PublishMessageAsync(mqtt, $"{topicPrefix}/Latitude", status.Latitude, cancellationToken);
-            await PublishMessageAsync(mqtt, $"{topicPrefix}/Longitude", status.Longitude, cancellationToken);
+            if (status.Latitude.HasValue && status.Longitude.HasValue)
+            {
+                await PublishMessageAsync(mqtt, $"{topicPrefix}/Latitude", status.Latitude.Value, cancellationToken);
+                await PublishMessageAsync(mqtt, $"{topicPrefix}/Longitude", status.Longitude.Value, cancellationToken);
+            }
+
             foreach (var item in status.Items)
             {
                 if (item.Value is null) continue;
