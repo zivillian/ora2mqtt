@@ -27,15 +27,15 @@ vehicles:
   phases: 3
   soc:
     source: mqtt
-    topic: GWM/<vin>/status/items/2013021/value
+    topic: GWM/<vehicleId>/status/items/2013021/value
     timeout: 1m
   range:
     source: mqtt
-    topic: GWM/<vin>/status/items/2011501/value
+    topic: GWM/<vehicleId>/status/items/2011501/value
     timeout: 1m
   odometer:
     source: mqtt
-    topic: GWM/<vin>/status/items/2103010/value
+    topic: GWM/<vehicleId>/status/items/2103010/value
     timeout: 1m
 ```
 
