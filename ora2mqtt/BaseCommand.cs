@@ -2,6 +2,7 @@
 using libgwmapi;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
@@ -52,7 +53,11 @@ public abstract class BaseCommand
         }
 
         var httpLogger = LoggerFactory.CreateLogger<HttpClient>();
-        var h5Client = new HttpClient(new LoggingHttpMessageHandler(httpLogger)
+        var httpOptions = new HttpClientFactoryOptions
+        {
+            ShouldRedactHeaderValue = x => "accessToken".Equals(x, StringComparison.InvariantCultureIgnoreCase)
+        };
+        var h5Client = new HttpClient(new LoggingHttpMessageHandler(httpLogger, httpOptions)
         {
             InnerHandler = new HttpClientHandler()
         });
@@ -60,7 +65,7 @@ public abstract class BaseCommand
         {
             InnerHandler = httpHandler
         });
-        return new GwmApiClient(h5Client, appClient)
+        return new GwmApiClient(h5Client, appClient, LoggerFactory)
         {
             Country = options.Country
         };
