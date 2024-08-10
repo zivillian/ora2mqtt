@@ -4,22 +4,27 @@ using libgwmapi;
 using MQTTnet.Client;
 using MQTTnet;
 using YamlDotNet.Serialization;
-using MQTTnet.Server;
 using libgwmapi.DTO.UserAuth;
+using Microsoft.Extensions.Logging;
+using ora2mqtt.Logging;
 
 namespace ora2mqtt;
 
 [Verb("run", true, HelpText = "default")]
 public class RunCommand:BaseCommand
 {
+    private ILogger _logger;
+
     [Option('i', "interval", Default = 10, HelpText = "GWM API polling interval")]
     public int Intervall { get; set; }
 
     public async Task<int> Run(CancellationToken cancellationToken)
     {
+        Setup();
+        _logger = LoggerFactory.CreateLogger<RunCommand>();
         if (!File.Exists(ConfigFile))
         {
-            await Console.Error.WriteLineAsync($"config file ({ConfigFile}) missing");
+            _logger.LogError($"config file ({ConfigFile}) missing");
             return 1;
         }
         Ora2MqttOptions config;
@@ -52,7 +57,7 @@ public class RunCommand:BaseCommand
 
     private async Task<IMqttClient> ConnectMqttAsync(Ora2MqttMqttOptions options,CancellationToken cancellationToken)
     {
-        var factory = new MqttFactory();
+        var factory = new MqttFactory(new MqttLogger(LoggerFactory));
         var client = factory.CreateMqttClient();
         var builder = new MqttClientOptionsBuilder()
             .WithTcpServer(options.Host)
@@ -91,7 +96,7 @@ public class RunCommand:BaseCommand
         }
         catch (GwmApiException e)
         {
-            await Console.Error.WriteLineAsync($"Access token expired ({e.Message}). Trying to refresh token...");
+            _logger.LogError($"Access token expired ({e.Message}). Trying to refresh token...");
         }
 
         var refresh = new RefreshTokenRequest

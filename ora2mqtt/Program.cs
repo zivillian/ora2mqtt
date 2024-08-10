@@ -1,18 +1,8 @@
-﻿using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using CommandLine;
-using libgwmapi;
-using libgwmapi.DTO.UserAuth;
-using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Exceptions;
+﻿using CommandLine;
 using ora2mqtt;
-using Sharprompt;
-using Sharprompt.Fluent;
-using YamlDotNet.Serialization;
 
 using var cts = new CancellationTokenSource();
-Console.CancelKeyPress += (s, e) =>
+Console.CancelKeyPress += (_, e) =>
 {
     cts.Cancel();
     e.Cancel = true;

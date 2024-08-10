@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace libgwmapi;
 
@@ -10,14 +11,16 @@ public partial class GwmApiClient
     public static readonly string AppHttpClientName = "eu-app-gateway";
     private readonly HttpClient _h5Client;
     private readonly HttpClient _appClient;
+    private readonly ILogger<GwmApiClient> _logger;
 
-    public GwmApiClient(IHttpClientFactory factory)
-        : this(factory.CreateClient(H5HttpClientName), factory.CreateClient(AppHttpClientName))
+    public GwmApiClient(IHttpClientFactory factory, ILoggerFactory loggerFactory)
+        : this(factory.CreateClient(H5HttpClientName), factory.CreateClient(AppHttpClientName), loggerFactory)
     {
     }
 
-    public GwmApiClient(HttpClient h5Client, HttpClient appClient)
+    public GwmApiClient(HttpClient h5Client, HttpClient appClient, ILoggerFactory loggerFactory)
     {
+        _logger = loggerFactory.CreateLogger<GwmApiClient>();
         _h5Client = h5Client;
         _h5Client.DefaultRequestHeaders.Add("rs", "2");
         _h5Client.DefaultRequestHeaders.Add("terminal", "GW_APP_ORA");
@@ -107,6 +110,11 @@ public partial class GwmApiClient
 
     private async Task CheckResponseAsync(HttpResponseMessage response, CancellationToken cancellationToken)
     {
+        if (_logger.IsEnabled(LogLevel.Trace))
+        {
+            await response.Content.LoadIntoBufferAsync();
+            _logger.LogTrace(await response.Content.ReadAsStringAsync(cancellationToken));
+        }
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadFromJsonAsync<GwmResponse>(cancellationToken: cancellationToken);
         CheckResponse(result);
@@ -114,6 +122,11 @@ public partial class GwmApiClient
 
     private async Task<T> GetResponseAsync<T>(HttpResponseMessage response, CancellationToken cancellationToken)
     {
+        if (_logger.IsEnabled(LogLevel.Trace))
+        {
+            await response.Content.LoadIntoBufferAsync();
+            _logger.LogTrace(await response.Content.ReadAsStringAsync(cancellationToken));
+        }
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadFromJsonAsync<GwmResponse<T>>(cancellationToken: cancellationToken);
         CheckResponse(result);
