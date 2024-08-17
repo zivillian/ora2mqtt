@@ -79,9 +79,10 @@ Folgende Datenpunkte kann ich auslesen:
 | ---------- | ------------
 | 2011501    | Reichweite in km
 | 2013021    | SOC
-| 2013022    | 
+| 2013022    | verbleibende Ladedauer in Minuten
 | 2013023    | 
 | 2041142    | Ladevorgang aktiv
+| 2041301    | SOCE
 | 2042071    | 
 | 2042082    | bool Flag, nur aktiv wenn geladen wird (aber nicht immer)
 | 2078020    | 
