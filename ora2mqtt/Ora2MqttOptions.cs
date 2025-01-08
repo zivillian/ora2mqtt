@@ -31,4 +31,6 @@ public class Ora2MqttMqttOptions
     public string Password { get; set; }
 
     public bool UseTls { get; set; }
+
+    public string HomeAssistantDiscoveryTopic { get; set; }
 }
