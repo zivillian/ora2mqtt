@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.Logger;
 
 namespace ora2mqtt.Logging
 {

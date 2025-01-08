@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using CommandLine;
 using libgwmapi;
-using MQTTnet.Client;
 using MQTTnet;
 using YamlDotNet.Serialization;
 using libgwmapi.DTO.UserAuth;
@@ -57,7 +56,7 @@ public class RunCommand:BaseCommand
 
     private async Task<IMqttClient> ConnectMqttAsync(Ora2MqttMqttOptions options,CancellationToken cancellationToken)
     {
-        var factory = new MqttFactory(new MqttLogger(LoggerFactory));
+        var factory = new MqttClientFactory(new MqttLogger(LoggerFactory));
         var client = factory.CreateMqttClient();
         var builder = new MqttClientOptionsBuilder()
             .WithTcpServer(options.Host)

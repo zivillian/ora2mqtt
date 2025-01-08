@@ -18,7 +18,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish ora2mqtt Windows
@@ -32,16 +32,16 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-win-x64
-        path: ora2mqtt/bin/release/net6.0/win-x64/publish
+        path: ora2mqtt/bin/release/net8.0/win-x64/publish
     - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-linux-x64
-        path: ora2mqtt/bin/release/net6.0/linux-x64/publish
+        path: ora2mqtt/bin/release/net8.0/linux-x64/publish
     - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-linux-arm
-        path: ora2mqtt/bin/release/net6.0/linux-arm/publish
+        path: ora2mqtt/bin/release/net8.0/linux-arm/publish
     - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-linux-arm64
-        path: ora2mqtt/bin/release/net6.0/linux-arm64/publish
+        path: ora2mqtt/bin/release/net8.0/linux-arm64/publish
