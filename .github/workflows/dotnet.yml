@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
@@ -29,19 +29,19 @@ jobs:
       run: dotnet publish -c release -r linux-arm --sc ora2mqtt/ora2mqtt.csproj
     - name: Publish ora2mqtt Linux ARM64
       run: dotnet publish -c release -r linux-arm64 --sc ora2mqtt/ora2mqtt.csproj
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-win-x64
         path: ora2mqtt/bin/release/net6.0/win-x64/publish
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-linux-x64
         path: ora2mqtt/bin/release/net6.0/linux-x64/publish
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-linux-arm
         path: ora2mqtt/bin/release/net6.0/linux-arm/publish
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: ora2mqtt-linux-arm64
         path: ora2mqtt/bin/release/net6.0/linux-arm64/publish
