@@ -1,7 +1,6 @@
 ﻿using CommandLine;
 using libgwmapi.DTO.UserAuth;
 using libgwmapi;
-using MQTTnet.Client;
 using MQTTnet.Exceptions;
 using MQTTnet;
 using Sharprompt;
@@ -145,7 +144,7 @@ namespace ora2mqtt
             var options = oraOptions.Mqtt;
             options.Host = Prompt.Input<string>("Please enter your mqtt server host or ip", defaultValue: options.Host);
 
-            if (!Prompt.Confirm("Does you mqtt server require credentials?"))
+            if (!Prompt.Confirm("Does your mqtt server require credentials?"))
             {
                 options.Username = String.Empty;
                 options.Password = String.Empty;
@@ -166,7 +165,7 @@ namespace ora2mqtt
 
             try
             {
-                var factory = new MqttFactory(new MqttLogger(LoggerFactory));
+                var factory = new MqttClientFactory(new MqttLogger(LoggerFactory));
                 using var client = factory.CreateMqttClient();
                 var builder = new MqttClientOptionsBuilder()
                     .WithTcpServer(options.Host)

@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
 COPY libgwmapi/ ./libgwmapi/
@@ -14,7 +14,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     && dotnet publish -c Release -o out -r $RID --sc ora2mqtt/ora2mqtt.csproj
 COPY openssl.cnf ./out/
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine
+FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-alpine
 WORKDIR /app
 COPY --from=build-env /app/out .
 COPY libgwmapi/Resources/gwm_root.pem /etc/ssl/certs/.
