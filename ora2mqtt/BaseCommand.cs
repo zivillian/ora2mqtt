@@ -61,7 +61,7 @@ public abstract class BaseCommand
         {
             InnerHandler = new HttpClientHandler()
         });
-        var appClient = new HttpClient(new LoggingHttpMessageHandler(httpLogger)
+        var appClient = new HttpClient(new LoggingHttpMessageHandler(httpLogger, httpOptions)
         {
             InnerHandler = httpHandler
         });
