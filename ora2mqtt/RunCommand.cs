@@ -367,7 +367,7 @@ public class RunCommand:BaseCommand
                     state_topic = $"GWM/{vehicle.Vin}/status/items/2210001/value",
                     name = "Window FL",
                     payload_off = "1",
-                    payload_on = "0"
+                    payload_on = "3"
                 },
                 status_2210002 = new
                 {
@@ -377,7 +377,7 @@ public class RunCommand:BaseCommand
                     state_topic = $"GWM/{vehicle.Vin}/status/items/2210002/value",
                     name = "Window FR",
                     payload_off = "1",
-                    payload_on = "0"
+                    payload_on = "3"
                 },
                 status_2210003 = new
                 {
@@ -387,7 +387,7 @@ public class RunCommand:BaseCommand
                     state_topic = $"GWM/{vehicle.Vin}/status/items/2210003/value",
                     name = "Window RL",
                     payload_off = "1",
-                    payload_on = "0"
+                    payload_on = "3"
                 },
                 status_2210004 = new
                 {
@@ -397,7 +397,7 @@ public class RunCommand:BaseCommand
                     state_topic = $"GWM/{vehicle.Vin}/status/items/2210004/value",
                     name = "Window RR",
                     payload_off = "1",
-                    payload_on = "0"
+                    payload_on = "3"
                 },
                 status_2078020 = new
                 {
