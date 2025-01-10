@@ -156,6 +156,15 @@ namespace ora2mqtt
             }
 
             options.UseTls = Prompt.Confirm("Do you want to use TLS on port 8883?");
+
+            if (Prompt.Confirm("Do you want to use Home Assistant discovery?"))
+            {
+                options.HomeAssistantDiscoveryTopic = Prompt.Input<string>("Please enter the Home Assistant discovery topic", defaultValue: "homeassistant");
+            }
+            else
+            {
+                options.HomeAssistantDiscoveryTopic = null;
+            }
         }
 
         private async Task<bool> TestMqttAsync(Ora2MqttOptions oraOptions, CancellationToken cancellationToken)
