@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using libgwmapi.DTO.UserAuth;
 using libgwmapi.DTO.Vehicle;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit.Abstractions;
 
 namespace libgwmapi.test;
@@ -94,7 +95,7 @@ public class GwmApiClientTest
     public async Task CanAcquireVehicles()
     {
         var client = GetAuthenticatedClient();
-        var vehicles = await client.AquireVehiclesAsync(CancellationToken.None);
+        var vehicles = await client.AcquireVehiclesAsync(CancellationToken.None);
         Assert.NotNull(vehicles);
         Assert.NotEmpty(vehicles);
         var vehicle = vehicles[0];
@@ -232,7 +233,7 @@ public class GwmApiClientTest
                 store.Add(cert);
             }
         }
-        return new GwmApiClient(new HttpClient(), new HttpClient(httpHandler));
+        return new GwmApiClient(new HttpClient(), new HttpClient(httpHandler), new NullLoggerFactory());
     }
 
     private GwmApiClient GetAuthenticatedClient()

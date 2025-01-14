@@ -4,9 +4,9 @@ namespace libgwmapi;
 
 public partial class GwmApiClient
 {
-    public Task<Vehicle[]> AquireVehiclesAsync(CancellationToken cancellationToken)
+    public Task<Vehicle[]> AcquireVehiclesAsync(CancellationToken cancellationToken)
     {
-        return GetAppAsync<Vehicle[]>("vehicle/acquireVehicles", cancellationToken);
+        return GetAppAsync<Vehicle[]>("globalapp/vehicle/acquireVehicles", cancellationToken);
     }
 
     public Task<VehicleBasicsInfo> GetVehicleBasicsInfoAsync(string vin, CancellationToken cancellationToken)

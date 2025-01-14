@@ -114,7 +114,7 @@ public class RunCommand:BaseCommand
 
     private async Task PublishStatusAsync(IMqttClient mqtt, GwmApiClient gwm, CancellationToken cancellationToken)
     {
-        var vehicles = await gwm.AquireVehiclesAsync(cancellationToken);
+        var vehicles = await gwm.AcquireVehiclesAsync(cancellationToken);
         foreach (var vehicle in vehicles)
         {
             var status = await gwm.GetLastVehicleStatusAsync(vehicle.Vin, cancellationToken);
