@@ -10,6 +10,9 @@ namespace libgwmapi.DTO.Vehicle
         [JsonPropertyName("airConditionModel")]
         public object AirConditionModel { get; set; }
 
+        [JsonPropertyName("appShowSeriesName")]
+        public string AppShowSeriesName { get; set; }
+
         [JsonPropertyName("authInfo")]
         public object AuthInfo { get; set; }
 
