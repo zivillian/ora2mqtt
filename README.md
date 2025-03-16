@@ -1,3 +1,7 @@
+# Vorbei...
+
+Leider besitze ich keinen Ora Funky Cat mehr, daher wird die Entwicklung hier nicht mehr weitergehen. Wenn das jemand übernehmen möchte - immer gern.
+
 # Ziel
 
 Hier entsteht eine Anwendung um den aktuellen Status eines GWM ORA Funky Cat per MQTT zu veröffentlichen und über MQTT Befehle an das Auto zu senden.
