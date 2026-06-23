@@ -2,6 +2,8 @@
 
 Leider besitze ich keinen Ora Funky Cat mehr, daher wird die Entwicklung hier nicht mehr weitergehen. Wenn das jemand übernehmen möchte - immer gern.
 
+In https://github.com/zivillian/ora2mqtt/issues/42#issuecomment-4776270544 wurde https://github.com/moryoav/ha-gwm_ora erwähnt - vielleicht hilft das weiter.
+
 # Ziel
 
 Hier entsteht eine Anwendung um den aktuellen Status eines GWM ORA Funky Cat per MQTT zu veröffentlichen und über MQTT Befehle an das Auto zu senden.
